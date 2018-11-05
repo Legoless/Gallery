@@ -1,7 +1,6 @@
 import UIKit
 
 class TripleButton: UIButton {
-
   struct ButtonState {
     let title: String
     let image: UIImage

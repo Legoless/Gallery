@@ -224,7 +224,15 @@ extension ImagesController: UICollectionViewDataSource, UICollectionViewDelegate
     if cart.images.contains(item) {
       cart.remove(item)
     } else {
-      if Config.Camera.imageLimit == 0 || Config.Camera.imageLimit > cart.images.count{
+      if Config.Camera.imageLimit == 1 {
+        let images = cart.images
+
+        for image in images {
+          cart.remove(image)
+        }
+      }
+        
+      if Config.Camera.imageLimit == 0 || Config.Camera.imageLimit > cart.images.count {
         cart.add(item)
       }
     }
@@ -245,7 +253,7 @@ extension ImagesController: UICollectionViewDataSource, UICollectionViewDelegate
 
     if let index = cart.images.index(of: item) {
       cell.frameView.g_quickFade()
-      cell.frameView.label.text = "\(index + 1)"
+      cell.frameView.label.text = Config.Camera.imageLimit == 1 ? "" : "\(index + 1)"
     } else {
       cell.frameView.alpha = 0
     }

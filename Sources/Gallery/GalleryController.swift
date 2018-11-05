@@ -7,6 +7,9 @@ public protocol GalleryControllerDelegate: class {
   func galleryController(_ controller: GalleryController, didSelectVideo video: Video)
   func galleryController(_ controller: GalleryController, requestLightbox images: [Image])
   func galleryControllerDidCancel(_ controller: GalleryController)
+    
+  func galleryControllerDidLoad(_ controller: GalleryController)
+  func galleryControllerPermissionDidFinish(_ controller: GalleryController)
 }
 
 public class GalleryController: UIViewController, PermissionControllerDelegate {
@@ -16,7 +19,6 @@ public class GalleryController: UIViewController, PermissionControllerDelegate {
   public let cart = Cart()
 
   // MARK: - Init
-
   public required init() {
     super.init(nibName: nil, bundle: nil)
   }
@@ -26,7 +28,6 @@ public class GalleryController: UIViewController, PermissionControllerDelegate {
   }
 
   // MARK: - Life cycle
-
   public override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -38,6 +39,8 @@ public class GalleryController: UIViewController, PermissionControllerDelegate {
       let permissionController = makePermissionController()
       g_addChildController(permissionController)
     }
+    
+    delegate?.galleryControllerDidLoad(self)
   }
 
   public override var prefersStatusBarHidden : Bool {
@@ -45,7 +48,6 @@ public class GalleryController: UIViewController, PermissionControllerDelegate {
   }
 
   // MARK: - Child view controller
-
   func makeImagesController() -> ImagesController {
     let controller = ImagesController(cart: cart)
     controller.title = "Gallery.Images.Title".g_localize(fallback: "PHOTOS")
@@ -106,7 +108,6 @@ public class GalleryController: UIViewController, PermissionControllerDelegate {
   }
 
   // MARK: - Setup
-
   func setup() {
     EventHub.shared.close = { [weak self] in
       if let strongSelf = self {
@@ -134,11 +135,12 @@ public class GalleryController: UIViewController, PermissionControllerDelegate {
   }
 
   // MARK: - PermissionControllerDelegate
-
   func permissionControllerDidFinish(_ controller: PermissionController) {
     if let pagesController = makePagesController() {
       g_addChildController(pagesController)
       controller.g_removeFromParentController()
     }
+    
+    delegate?.galleryControllerPermissionDidFinish(self)
   }
 }
