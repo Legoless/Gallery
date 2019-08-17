@@ -251,7 +251,7 @@ extension ImagesController: UICollectionViewDataSource, UICollectionViewDelegate
   func configureFrameView(_ cell: ImageCell, indexPath: IndexPath) {
     let item = items[(indexPath as NSIndexPath).item]
 
-    if let index = cart.images.index(of: item) {
+    if let index = cart.images.firstIndex(of: item) {
       cell.frameView.g_quickFade()
       cell.frameView.label.text = Config.Camera.imageLimit == 1 ? "" : "\(index + 1)"
     } else {
