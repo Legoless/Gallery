@@ -41,6 +41,7 @@ public struct Config {
 
     public static var recordLocation: Bool = false
     public static var allowClose: Bool = true
+    public static var allowUnlimitedRetake = false
 
     public struct ShutterButton {
       public static var numberColor: UIColor = UIColor(red: 54/255, green: 56/255, blue: 62/255, alpha: 1)
