@@ -12,7 +12,7 @@ public protocol GalleryControllerDelegate: class {
   func galleryControllerPermissionDidFinish(_ controller: GalleryController)
 }
 
-public class GalleryController: UIViewController, PermissionControllerDelegate {
+open class GalleryController: UIViewController, PermissionControllerDelegate {
 
   public weak var delegate: GalleryControllerDelegate?
 
@@ -24,11 +24,11 @@ public class GalleryController: UIViewController, PermissionControllerDelegate {
   }
 
   public required init?(coder aDecoder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
+    super.init(coder: aDecoder)
   }
 
   // MARK: - Life cycle
-  public override func viewDidLoad() {
+  open override func viewDidLoad() {
     super.viewDidLoad()
 
     setup()
@@ -43,8 +43,8 @@ public class GalleryController: UIViewController, PermissionControllerDelegate {
     delegate?.galleryControllerDidLoad(self)
   }
 
-  public override var prefersStatusBarHidden : Bool {
-    return true
+  open override var prefersStatusBarHidden : Bool {
+    return Config.showStatusBar
   }
 
   // MARK: - Child view controller
